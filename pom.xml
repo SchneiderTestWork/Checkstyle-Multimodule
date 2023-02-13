@@ -20,6 +20,7 @@
     <modules>
         <module>service</module>
         <module>core</module>
+        <module>build-tool</module>
     </modules>
 
     <properties>
@@ -27,7 +28,6 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <config_loc>${basedir}/checkstyle</config_loc>
     </properties>
 
     <dependencies>
@@ -41,6 +41,7 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -51,24 +52,20 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>3.2.1</version>
-                <inherited>false</inherited>
-
                 <dependencies>
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
                         <version>10.7.0</version>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>com.example</groupId>
+                        <artifactId>build-tool</artifactId>
+                        <version>0.0.1-SNAPSHOT</version>
                     </dependency>
                 </dependencies>
 
@@ -97,11 +94,12 @@
                 </executions>
 
                 <configuration>
-                    <configLocation>${basedir}\checkstyle\checkstyle.xml</configLocation>
                     <consoleOutput>true</consoleOutput>
+                    <linkXRef>false</linkXRef>
+                    <configLocation>checkstyle/checkstyle.xml</configLocation>
+                    <propertiesLocation>${basedir}${file.separator}build-tool${file.separator}src${file.separator}main${file.separator}resources${file.separator}checkstyle${file.separator}checkstyle.properties</propertiesLocation>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>
